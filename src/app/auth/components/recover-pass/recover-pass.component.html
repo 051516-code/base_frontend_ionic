@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Recuperar Contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="requestForm" (ngSubmit)="onRequestSubmit()">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Correo Electrónico</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="full" type="submit" color="primary" class="ion-margin-top">Enviar Código</ion-button>
+  </form>
+
+  <!-- Verificar si el control 'email' no es null antes de acceder a sus errores -->
+  <ion-text color="danger" *ngIf="requestForm.get('email')?.hasError('email')">
+    <p>Por favor, ingresa un correo electrónico válido.</p>
+  </ion-text>
+  <ion-text color="danger" *ngIf="requestForm.get('email')?.hasError('required')">
+    <p>El correo electrónico es obligatorio.</p>
+  </ion-text>
+</ion-content>

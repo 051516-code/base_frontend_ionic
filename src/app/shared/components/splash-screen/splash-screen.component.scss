@@ -1,0 +1,112 @@
+
+.splash-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to top right, red, orange, yellow); /* Fondo con gradiente diagonal */
+    color: white;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    overflow: hidden;
+    animation: fadeOutBackground 1s ease-out 3s forwards;
+  }
+  
+  .splash-logo {
+    width: 120px;
+    height: auto;
+    animation: rotateAndBounce 2s ease-in-out forwards;
+  }
+  
+  .transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 165, 0, 0.8); /* Naranja semitransparente */
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none; /* Para que no interfiera con los clics */
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  h1, p {
+    margin: 10px 0;
+    font-family: 'Roboto', sans-serif; /* Fuente moderna */
+    color: #fff;
+    animation: textFadeIn 1.5s ease-out 1s forwards;
+  }
+  
+  h1 {
+    font-size: 1.5em;
+  }
+  
+  p {
+    font-size: 1.2em;
+  }
+  
+  .footer {
+    position: absolute;
+    bottom: 20px;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.8);
+    animation: fadeInFooter 1.5s ease-out 2s forwards;
+  }
+  
+  /* Animaciones */
+  @keyframes rotateAndBounce {
+    0% {
+      transform: rotate(0deg) translateX(0);
+      opacity: 1;
+    }
+    60% {
+      transform: rotate(720deg) translateX(0); /* Giro completo dos veces */
+      opacity: 1;
+    }
+    80% {
+      transform: rotate(720deg) translateX(10px); /* Rebote leve hacia la derecha */
+      opacity: 0.8;
+    }
+    100% {
+      transform: rotate(720deg) translateX(20px); /* Rebote más marcado hacia la derecha */
+      opacity: 0;
+    }
+  }
+  
+  @keyframes textFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInFooter {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeOutBackground {
+    from {
+      background: linear-gradient(to top right, red, orange, yellow); /* Gradiente diagonal */
+    }
+    to {
+      background: transparent;
+    }
+  }
+  

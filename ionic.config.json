@@ -1,0 +1,7 @@
+{
+  "name": "startup-HelperRoads",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

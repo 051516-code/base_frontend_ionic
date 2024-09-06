@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Verificar Código</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="verifyForm" (ngSubmit)="onVerifySubmit()">
+    <div class="code-input-container">
+      <ion-input 
+        *ngFor="let control of controls; let i = index" 
+        [formControlName]="i"
+        (input)="onInput($event, i)"
+        maxlength="1"
+        type="text"
+        class="code-input">
+      </ion-input>
+    </div>
+    <ion-button expand="full" type="submit" color="primary" class="ion-margin-top">Verificar Código</ion-button>
+  </form>
+
+  <!-- Verificar errores con la sintaxis correcta -->
+  <ion-text color="danger" *ngIf="verifyForm.errors?.['code']">
+    <p>El código de verificación es obligatorio y debe ser válido.</p>
+  </ion-text>
+
+
+</ion-content>

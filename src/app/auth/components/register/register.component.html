@@ -1,0 +1,63 @@
+<ion-content class="ion-padding">
+  <div class="ion-text-center">
+    <ion-img src="assets/img/logo.png" alt="AIO" style="height: 100px;"></ion-img>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+    <ion-list lines="full" class="ion-margin-top">
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="name" type="text" autocapitalize="on" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input formControlName="password" type="password" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Confirmar Contraseña</ion-label>
+        <ion-input formControlName="confirmPassword" type="password" required></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)">
+        <ion-text color="danger" *ngIf="registerForm.get('confirmPassword')?.hasError('required')">
+          Por favor confirme su contraseña.
+        </ion-text>
+        <ion-text color="danger" *ngIf="registerForm.hasError('passwordMismatch')">
+          Las contraseñas no coinciden.
+        </ion-text>
+      </ion-item>
+    </ion-list>
+
+    <ion-item class="terms-item">
+      <ion-checkbox formControlName="terms" id="terms"></ion-checkbox>
+      <ion-label for="terms">
+        Acepto los <a (click)="goToTerms()">Términos y Condiciones</a>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="registerForm.get('terms')?.invalid && (registerForm.get('terms')?.dirty || registerForm.get('terms')?.touched)">
+      <ion-text color="danger">
+        Debe aceptar los términos y condiciones para continuar.
+      </ion-text>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="registerForm.invalid" class="ion-margin-top" color="primary">
+      Registrarse
+    </ion-button>
+  </form>
+
+  <div class="ion-text-center ion-margin-top">
+    <p>¿Ya tienes cuenta?</p>
+    <ion-button fill="clear" color="primary" (click)="goToLogin()">Iniciar sesión</ion-button>
+  </div>
+</ion-content>
+
+<div class="ion-text-center ion-margin-top">
+  <p>Drunk - Code</p>
+</div>

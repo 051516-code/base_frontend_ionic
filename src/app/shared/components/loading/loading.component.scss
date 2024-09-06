@@ -1,0 +1,39 @@
+/* src/app/loading/loading.component.scss */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Fondo negro semitransparente */
+    z-index: 9999; /* Asegúrate de que esté por encima de otros elementos */
+  }
+  
+  .spinner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .spinner {
+    width: 100px; /* Ajusta el tamaño del spinner */
+    height: auto;
+    animation: spin 1s linear infinite; /* Agrega animación de rotación */
+  }
+  
+  .loading-message {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #fff; /* Color blanco para el mensaje sobre fondo negro */
+  }
+  
+  /* Animación de rotación */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
