@@ -10,6 +10,7 @@ import { TermsConditionComponent } from './components/terms-condition/terms-cond
 import { RecoverPassComponent } from './components/recover-pass/recover-pass.component';
 import { VerifyCodeComponent } from './components/verify-code/verify-code.component';
 import { ResetPassComponent } from './components/reset-pass/reset-pass.component';
+import { AuthGuard } from '../core/guards/auth.guard';
 const routes: Routes = [
 
   {
@@ -19,7 +20,7 @@ const routes: Routes = [
   },
   {
     path : AUTH_ROUTES.LOGIN,
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path : AUTH_ROUTES.REGISTER,

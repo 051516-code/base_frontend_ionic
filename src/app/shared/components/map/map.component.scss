@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.map-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* Estilos personalizados para los controles de zoom */
+.map-zoom-controls {
+  position: absolute;
+  top: 20px; /* Ajusta según sea necesario */
+  right: 20px; /* Ajusta según sea necesario */
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.map-zoom-controls .ol-zoom-in,
+.map-zoom-controls .ol-zoom-out {
+  background: #fff; /* Fondo blanco para los botones de zoom */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 3px; /* Bordes redondeados */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+}
+
+ion-fab {
+  --background: var(--ion-color-primary);
+  --color: white;
+}

@@ -1,27 +1,28 @@
-#container {
+.map-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+app-map {
+  height: 100%;
+  width: 100%;
+  display: block; /* Asegura que el componente del mapa se expanda correctamente */
+}
+
+
+// *********************** para alert
+
+/* styles.css o tu archivo de estilos global */
+.custom-alert .alert-wrapper {
+  --background: transparent; /* Opcional: cambia el fondo del alert si es necesario */
+}
+
+.custom-alert #alert-content {
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+.custom-alert img {
+  border-radius: 8px; /* Opcional: estilos adicionales para las imágenes */
+  box-shadow: 0 0 5px rgba(0,0,0,0.2); /* Opcional: sombra para mejor apariencia */
 }

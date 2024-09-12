@@ -1,0 +1,74 @@
+
+.title {
+    font-size: 12px;
+    color: rgb(118, 118, 199);
+    margin-left: 15px;
+    margin-bottom: 10px; /* Espacio debajo del título */
+  }
+  
+  
+  /* Asegura que el Swiper tenga un tamaño adecuado y esté bien posicionado */
+  .swiper-container {
+    width: 100%; /* Asegura que el Swiper ocupe el ancho completo del contenedor */
+    height: auto; /* Ajusta la altura automáticamente */
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  /* Estiliza el swiper-slide para centrar las tarjetas */
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Estilo de la tarjeta */
+  .card {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 10px;
+    height: 90px;
+    margin-bottom: 10px;
+  }
+  
+  /* Imagen de la tarjeta */
+  .card-image {
+    width: 70px; /* Tamaño de la imagen */
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* Contenido de la tarjeta */
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 5px;
+  }
+  
+  /* Nombre de la empresa */
+  .company-name {
+    font-size: 12px;
+    font-weight: bold;margin: 0;
+  }
+  
+  /* Valoración por estrellas */
+  .rating {
+    margin: 2px 2px;
+  }
+  
+  /* Estrella */
+  .star {
+    color: #f39c12;
+    font-size: 16px;
+  }
+  
+  

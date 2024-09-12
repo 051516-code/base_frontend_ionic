@@ -8,6 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { RecoverPassComponent } from './components/recover-pass/recover-pass.component';
 import { VerifyCodeComponent } from './components/verify-code/verify-code.component';
 import { ResetPassComponent } from './components/reset-pass/reset-pass.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -25,7 +26,8 @@ import { ResetPassComponent } from './components/reset-pass/reset-pass.component
     AuthRoutingModule,
     FormsModule,
     IonicModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   schemas : [CUSTOM_ELEMENTS_SCHEMA]
 })

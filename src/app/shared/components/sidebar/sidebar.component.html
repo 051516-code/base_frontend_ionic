@@ -1,0 +1,41 @@
+<ion-menu contentId="main-content" *ngIf="isAuthenticated">
+  <div class="sidebar-header">
+    <div class="user-info" (click)="goToMap()">
+      <img src="assets/img/negro.jpg" alt="User Image" class="user-image"/>
+      <div class="user-details">
+        <h2 class="user-name">{{ user?.email }}</h2>
+        <div class="user-rating">
+          <ion-icon name="star" class="star-icon"></ion-icon>
+          <ion-icon name="star" class="star-icon"></ion-icon>
+          <ion-icon name="star" class="star-icon"></ion-icon>
+          <ion-icon name="star" class="star-icon"></ion-icon>
+          <ion-icon name="star-outline" class="star-icon"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <ion-content>
+    <ion-list>
+      <ion-item (click)="goToProfile()">
+        <ion-icon slot="start" name="person"></ion-icon>
+        <ion-label>Profile</ion-label>
+      </ion-item>
+      <ion-item (click)="goToSettings()">
+        <ion-icon slot="start" name="settings"></ion-icon>
+        <ion-label>Settings</ion-label>
+      </ion-item>
+      <ion-item (click)="goToLogout()">
+        <ion-icon slot="start" name="log-out"></ion-icon>
+        <ion-label>Logout</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content> -->
+  
+  <ion-footer>
+    <ion-button expand="full" (click)="goToCompanyMode()">
+      <ion-icon slot="start" name="create-outline"></ion-icon>
+      <ion-label>Modo Empresa</ion-label>
+    </ion-button>
+  </ion-footer>
+</ion-menu>

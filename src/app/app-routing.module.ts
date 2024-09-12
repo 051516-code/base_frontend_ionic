@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { SplashScreenComponent } from './shared/components/splash-screen/splash-screen.component';
 import { APP_ROUTES } from './app-routes.constant';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
     loadChildren:() => import('./auth/auth.module').then( m => m.AuthModule)
   },
   {
-    path: 'home',
+    path: APP_ROUTES.MAP,
+    canActivate: [AuthGuard],
     loadChildren: () => import('./public/home/home.module').then( m => m.HomePageModule)
   },
   {

@@ -1,46 +1,78 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+
 import { Login } from '../interfaces/login.interface';
 import { Register } from '../interfaces/register.interface';
 import { UserProfile } from '../interfaces/user.interface';
+import { SendResetCode } from '../interfaces/sendResetCode.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = `${environment.apiUrl}/auth`;
-  private readonly CURRENT_USER_Key = 'current-user';
+  private apiUrl = `${environment.apiUrl}`;
+  private readonly CURRENT_USER_Key = 'aio-token';
 
   constructor(private http: HttpClient) { }
 
-  // Registrar un nuevo usuario
-  register(newUser: Register): Observable<boolean> {
-    return this.http.post<{ success: boolean }>(`${this.apiUrl}/register`, newUser)
-      .pipe(
-        map(response => response.success),
-        catchError(() => of(false))
-      );
+  // TODO: Registrar un nuevo usuario
+  register(newUser: Register): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, newUser, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .pipe(
+      map(response => response),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error en la solicitud de registro:', error);
+        return of({ success: false, message: error.error.message || 'Error desconocido' });
+      })
+    );
   }
 
-  // Iniciar sesión
-  login(login: Login): Observable<boolean> {
 
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, login)
+
+  // TODO : Iniciar sesión
+  login(login: Login): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/auth/login`, login)
       .pipe(
         map(response => {
           if (response.token) {
             localStorage.setItem(this.CURRENT_USER_Key, response.token);
-            return true;
-          } else {
-            return false;
           }
+          return response; // Devuelve el objeto completo con el token
         }),
-        catchError(() => of(false))
+        catchError(() => of({ token: '' })) // Maneja el error devolviendo un objeto con un token vacío
       );
   }
+
+
+
+  
+  sendResetCode(sendResetCode: SendResetCode): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/send-reset-code`, sendResetCode, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .pipe(
+      map(response => response),  // Aquí podemos devolver solo lo que nos interesa del response
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error en la solicitud desde frontend:', error);
+        return of({ success: false, message: error.error.message || 'Error desconocido' });
+      })
+    );
+  }
+  
+
+  verifyCode(codeStr : string){
+    return true;
+  }
+
 
   // Obtener el perfil del usuario actual
   getUserProfile(): Observable<UserProfile | null> {

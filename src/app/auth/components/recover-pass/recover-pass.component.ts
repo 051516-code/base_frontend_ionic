@@ -2,10 +2,11 @@ import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../../services/authFake.services';
+import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { APP_ROUTES } from 'src/app/app-routes.constant';
 import { AUTH_ROUTES } from '../../auth-routing.constant';
+import { SendResetCode } from '../../interfaces/sendResetCode.interface';
 
 @Component({
   selector: 'app-recover-pass',
@@ -13,7 +14,7 @@ import { AUTH_ROUTES } from '../../auth-routing.constant';
   styleUrls: ['./recover-pass.component.scss'],
 })
 export class RecoverPassComponent {
-
+  isLoading = false;
   requestForm : FormGroup;
 
   constructor(
@@ -27,27 +28,46 @@ export class RecoverPassComponent {
     })
   }
 
-  async onRequestSubmit(){
-    if(this.requestForm.valid){
+  async onRequestSubmit() {
+    if (this.requestForm.valid) {
+  
       const email = this.requestForm.get('email')?.value;
   
-      try{
+      // Mostrar el indicador de carga
+      this.isLoading = true;
   
-        const emailValid = await this.authService.recoverPassword(email);
-        
-        if(emailValid) {
-          await this.toastService.showSuccessToast('Codigo enviado al correo electronico');
+      try {
+        // Construir el objeto para la solicitud
+        const sendResetCode: SendResetCode = { email };
+  
+        // Llamar al servicio para enviar el código de recuperación
+        const response = await this.authService.sendResetCode(sendResetCode).toPromise();
+  
+        // Manejar la respuesta del servidor
+        if (response.success) {
+          console.log("Respuesta del servidor:", response);
+          
+          // Mostrar mensaje de éxito y redirigir
+          await this.toastService.showSuccessToast('Código enviado al correo electrónico');
           this.router.navigate([`${APP_ROUTES.AUTH}/${AUTH_ROUTES.VERIFYCODE}`]);
-    
-        }else {
-          await this.toastService.showDangerToast('Email invalido!!');
+          
+        } else {
+          // Mostrar mensaje de error en caso de fallo
+          await this.toastService.showDangerToast('Email inválido o error al enviar el código.');
         }
+  
+      } catch (error) {
+        // Manejar errores de la solicitud
+        console.error('Error en el envío del código:', error);
+        await this.toastService.showDangerToast('Error al enviar el código a tu correo.');
         
-      }catch(error){
-        await this.toastService.showDangerToast('Error al enviar el codigo a tu correo ')
+      } finally {
+        // Ocultar el indicador de carga
+        this.isLoading = false;
       }
+    } else {
+      await this.toastService.showDangerToast('Por favor, ingresa una dirección de correo válida.');
     }
   }
- 
 
 }

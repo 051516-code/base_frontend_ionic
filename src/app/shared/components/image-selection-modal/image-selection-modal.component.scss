@@ -1,0 +1,51 @@
+.modal-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px; /* Ajusta el ancho del modal */
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff; /* Fondo blanco para el contenido del modal */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para el efecto de caja */
+}
+
+ion-title {
+  text-align: center;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.image-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 15px;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.image-item ion-img {
+  width: 100px; /* Ajusta el tamaño de las imágenes */
+  height: 100px;
+  border-radius: 8px;
+}
+
+.image-label {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #333; /* Color del texto */
+}

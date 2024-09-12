@@ -14,7 +14,8 @@
     </ion-list>
     <ion-button expand="full" type="submit" color="primary" class="ion-margin-top">Enviar Código</ion-button>
   </form>
-
+<!--  Loading  -->
+    <app-loading [show]="isLoading"></app-loading>
   <!-- Verificar si el control 'email' no es null antes de acceder a sus errores -->
   <ion-text color="danger" *ngIf="requestForm.get('email')?.hasError('email')">
     <p>Por favor, ingresa un correo electrónico válido.</p>

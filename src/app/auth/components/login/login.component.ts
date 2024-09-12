@@ -37,31 +37,44 @@ export class LoginComponent {
   }
 
   async onSubmit() {
-    if (this.loginForm.invalid) {
-      return;
-    }
+    if (this.loginForm.valid) {
 
-    const login: Login = this.loginForm.value;
+      //TODO> preparamos los datos a enviar
+      const loginData = {
+        email: this.loginForm.get('email')?.value,
+        password: this.loginForm.get('password')?.value,
+      };
 
-    this.isLoading = true; // Mostrar indicador de carga
-    try {
-      const loggedIn = await this.authService.login(login).toPromise();
+      this.isLoading = true; // Mostrar indicador de carga
       
-      console.log('Login result:', loggedIn);
+      //TODO> llamamos el servicio de login
+      try {
+        const loggedIn = await this.authService.login(loginData).toPromise();
+        console.log('Login result:', loggedIn);
 
-      if (loggedIn) {
-        this.toastService.showSuccessToast('Login Correcto');
-        this.router.navigate([APP_ROUTES.HOME]); // Redirigir a la ruta deseada
-      } else {
-
-        this.toastService.showDangerToast('Login Incorrecto, revisa tus credenciales: '+ loggedIn);
+        if (loggedIn && loggedIn.token) {  // Verificar si el login fue exitoso y si se recibe el token
+          this.toastService.showSuccessToast('Login Correcto');
+          this.router.navigate([APP_ROUTES.MAP]); // Redirigir a la ruta deseada
+        
+        }else {
+          
+          this.toastService.showDangerToast('Login Incorrecto, revisa tus credenciales: '+ loggedIn);
+        }
+      
+      } catch (error) {
+       
+        this.toastService.showDangerToast('Error en el login, por favor intente nuevamente : ' + error);
+     
+      } finally {
+      
+        this.isLoading = false; // Ocultar indicador de carga
       }
-    } catch (error) {
-      this.toastService.showDangerToast('Error en el login, por favor intente nuevamente : ' + error);
-    } finally {
-      this.isLoading = false; // Ocultar indicador de carga
     }
+
   }
+
+
+
 
   goToRegister() {
     this.router.navigate([`${APP_ROUTES.AUTH}/${AUTH_ROUTES.REGISTER}`]);

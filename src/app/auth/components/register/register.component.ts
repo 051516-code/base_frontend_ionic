@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ToastService } from '../../../core/services/toast.service';
 import { APP_ROUTES } from '../../../app-routes.constant';
 import { AUTH_ROUTES } from '../../auth-routing.constant';
-import { AuthService } from '../../services/authFake.services';
+import { AuthService } from '../../services/auth.service';
 import { Register } from '../../interfaces/register.interface';
 
 @Component({
@@ -32,26 +32,35 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-ngOnInit(): void {
-  this.registerForm.reset()
-}
+  ngOnInit(): void {
+    this.registerForm.reset()
+  }
 
   passwordMatchValidator(formGroup: FormGroup) {
     return formGroup.get('password')?.value === formGroup.get('confirmPassword')?.value
       ? null : { passwordMismatch: true };
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.registerForm.valid) {
-      const register: Register = this.registerForm.value;
-
-      this.authService.register(register).then(
+      // Preparamos los datos sin 'confirmPassword' y 'terms'
+      const registerData = {
+        name: this.registerForm.get('name')?.value,
+        email: this.registerForm.get('email')?.value,
+        password: this.registerForm.get('password')?.value,
+      };
+  
+      // Llama al servicio de registro
+      this.authService.register(registerData).subscribe(
         (response) => {
-          if (response) {
+          console.log('Respuesta del backend:' , response)
+
+          if (response.success) {
             this.toastService.showSuccessToast('Registro completado con éxito!!!');
             this.router.navigate([`${APP_ROUTES.AUTH}/${AUTH_ROUTES.LOGIN}`]);
           } else {
-            this.toastService.showDangerToast('Error al registrar el usuario!!!');
+            console.log('Error en la respuesta :' , response)
+            this.toastService.showDangerToast(response.message || 'Error al registrar el usuario!!!');
           }
         },
         (error) => {
@@ -60,6 +69,9 @@ ngOnInit(): void {
       );
     }
   }
+  
+  
+  
 
   goToLogin() {
     this.router.navigate([`${APP_ROUTES.AUTH}/${AUTH_ROUTES.LOGIN}`]);

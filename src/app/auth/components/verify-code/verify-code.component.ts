@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../core/services/toast.service';
-import { AuthService } from '../../services/authFake.services';
+import { AuthService } from '../../services/auth.service';
 import { AUTH_ROUTES } from '../../auth-routing.constant';
 import { APP_ROUTES } from 'src/app/app-routes.constant';
 
@@ -54,8 +54,7 @@ export class VerifyCodeComponent {
         await this.toastService.showSuccessToast('Código verificado con éxito.');
         this.verifyForm.reset();
         setTimeout(() => {
-          this.router.navigate(['helperRoads/auth/ressetpassword']);
-          this.router.navigate([`${APP_ROUTES.AUTH}/${AUTH_ROUTES.RESSETPASS}`]);
+          // this.router.navigate([`${APP_ROUTES.AUTH}/${AUTH_ROUTES.RESSETPASS}`]);
         },2500)
 
         }else {

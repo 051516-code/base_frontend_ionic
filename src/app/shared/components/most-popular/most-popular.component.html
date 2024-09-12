@@ -1,3 +1,31 @@
-<p>
-  most-popular works!
-</p>
+<!-- Título del componente -->
+<h6 class="title">Most Populars in this area</h6>
+
+ <!--  Loading  -->
+ <app-loading [show]="isLoading"></app-loading>
+
+<!-- Configuración de Swiper -->
+<swiper-container
+  [slidesPerView]="2"
+  [pagination]="true"
+  [spaceBetween]="10"
+  [loop]="true"
+  [config]="swiperConfig"
+>
+  <swiper-slide *ngFor="let company of companies; let i = index">
+    <div class="card" (click)="navigateToPage(i)">
+      <img [src]="company.image" alt="Company Image" class="card-image" />
+      <div class="card-content">
+       
+        <h6 class="company-name">{{ company.name }}</h6>
+        <span>{{company.distance}}/km</span>
+        
+        <div class="rating">
+          <span *ngFor="let star of company.rating; let i = index" class="star">&#9733;</span>
+        </div>
+
+      </div>
+    </div>
+  </swiper-slide>
+ 
+</swiper-container>

@@ -1,0 +1,12 @@
+.map-container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+  
+app-map {
+    height: 100%;
+    width: 100%;
+    display: block; /* Asegura que el componente del mapa se expanda correctamente */
+  }
+  
