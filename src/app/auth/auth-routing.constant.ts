@@ -6,8 +6,6 @@ export const AUTH_ROUTES = {
     REGISTER: `register`,
     TERMS : `terms`,
     RECOVERPASS: `recoverPass`,
-    VERIFYCODE: `verifyCode`,
-    RESSETPASS: `resetPass`
 }
 
 

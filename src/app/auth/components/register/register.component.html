@@ -33,7 +33,10 @@
           Las contraseñas no coinciden.
         </ion-text>
       </ion-item>
+
     </ion-list>
+
+     
 
     <ion-item class="terms-item">
       <ion-checkbox formControlName="terms" id="terms"></ion-checkbox>
@@ -46,6 +49,9 @@
         Debe aceptar los términos y condiciones para continuar.
       </ion-text>
     </ion-item>
+    
+       <!--  Loading  -->
+     <app-loading [show]="isLoading"></app-loading>
 
     <ion-button expand="block" type="submit" [disabled]="registerForm.invalid" class="ion-margin-top" color="primary">
       Registrarse
@@ -56,7 +62,11 @@
     <p>¿Ya tienes cuenta?</p>
     <ion-button fill="clear" color="primary" (click)="goToLogin()">Iniciar sesión</ion-button>
   </div>
+
 </ion-content>
+
+
+ 
 
 <div class="ion-text-center ion-margin-top">
   <p>Drunk - Code</p>

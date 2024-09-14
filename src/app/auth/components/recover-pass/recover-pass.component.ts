@@ -1,73 +1,120 @@
-import { Component} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
-import { APP_ROUTES } from 'src/app/app-routes.constant';
-import { AUTH_ROUTES } from '../../auth-routing.constant';
-import { SendResetCode } from '../../interfaces/sendResetCode.interface';
+import { CodeVeryfy, RequestCode } from '../../interfaces/recover-pass.interface';
 
 @Component({
   selector: 'app-recover-pass',
   templateUrl: './recover-pass.component.html',
   styleUrls: ['./recover-pass.component.scss'],
 })
-export class RecoverPassComponent {
-  isLoading = false;
-  requestForm : FormGroup;
+export class RecoverPassComponent  implements OnInit {
+currentStep: 'requestEmail' | 'verifyCode' | 'resetPass' = 'requestEmail' // todo:  estado para determinar que paso mostrar
+isLoading  = false;
+private resetCode : string | null = null; //todo: codigo de recuperacion
 
-  constructor(
-    private fb : FormBuilder,
-    private authService: AuthService,
-    private router : Router,
-    private toastService : ToastService
-  ) { 
-    this.requestForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
-    })
+
+constructor(
+  private authService : AuthService,
+  private router :  Router,
+  private toastService : ToastService
+) { }
+
+  ngOnInit() : void {}
+
+
+//TODO: logica para manejar la solicitud de codigo
+async handleEmailSubmit(requestCode : RequestCode){
+  console.log('Email recibido:', requestCode);
+  this.isLoading = true; //TODO: indicador de carga
+
+
+
+  try {
+    const result = await this.authService.requestCode(requestCode).toPromise()
+    
+    if(result.success) {
+        await this.toastService.showSuccessToast('Código enviado al correo.');
+        this.currentStep = 'verifyCode'; // Avanzar al siguiente paso
+
+   }else {
+
+     await this.toastService.showDangerToast(result.message || 'Codigo de verificacion invalido.')
+   }
+
+  } catch (error) {
+
+    await this.toastService.showDangerToast('Error al solicitar el código.');
+  
+  }finally {
+
+    this.isLoading = false;
   }
 
-  async onRequestSubmit() {
-    if (this.requestForm.valid) {
+}
+
+//TODO: logica para manejar la verificacion del codigo
+async handleCodeSubmit(code : any) {
   
-      const email = this.requestForm.get('email')?.value;
+  this.isLoading = true; //todo: indicador de carga
+
+  //todo: preparamos data
+  const requestCode : CodeVeryfy = {code}
+
+  try {
+    
+    const result = await this.authService.verifyCode(requestCode).toPromise();
+    
+    if(result.success) {
+       this.resetCode = code; // todo: almacena el codigo 
+       this.currentStep = 'resetPass'; //todo: avanza al siguiente paso
+
+    }else {
+
+      await this.toastService.showDangerToast(result.message || 'Codigo de verificacion invalido.')
+    }
+
+  } catch (error) {
+
+    await this.toastService.showDangerToast( 'Error al verificar el codigo.')
   
-      // Mostrar el indicador de carga
-      this.isLoading = true;
-  
-      try {
-        // Construir el objeto para la solicitud
-        const sendResetCode: SendResetCode = { email };
-  
-        // Llamar al servicio para enviar el código de recuperación
-        const response = await this.authService.sendResetCode(sendResetCode).toPromise();
-  
-        // Manejar la respuesta del servidor
-        if (response.success) {
-          console.log("Respuesta del servidor:", response);
-          
-          // Mostrar mensaje de éxito y redirigir
-          await this.toastService.showSuccessToast('Código enviado al correo electrónico');
-          this.router.navigate([`${APP_ROUTES.AUTH}/${AUTH_ROUTES.VERIFYCODE}`]);
-          
-        } else {
-          // Mostrar mensaje de error en caso de fallo
-          await this.toastService.showDangerToast('Email inválido o error al enviar el código.');
-        }
-  
-      } catch (error) {
-        // Manejar errores de la solicitud
-        console.error('Error en el envío del código:', error);
-        await this.toastService.showDangerToast('Error al enviar el código a tu correo.');
-        
-      } finally {
-        // Ocultar el indicador de carga
-        this.isLoading = false;
+  } finally {
+    this.isLoading = false ;
+  }
+}
+
+
+//TODO: logica para manejar el reestablecimiento de la contrasena
+async onResetPassword(password :  string){
+
+
+  if( this.resetCode){
+    this.isLoading = true; // todo: marcador de carga
+
+    try {
+
+      const response = await this.authService.resetPassword(this.resetCode, password).toPromise();
+
+      if( response.success){
+        await this.toastService.showSuccessToast('Contrasenha restablecida Exitosamente');
+        this.router.navigate(['/login']) //todo: redirect to
+
+      }else {
+
+        await this.toastService.showDangerToast(response.message || 'Error al restablecer la contrasenha');
+      
       }
-    } else {
-      await this.toastService.showDangerToast('Por favor, ingresa una dirección de correo válida.');
+
+    } catch (error) {
+      
+    }finally{
+
+      this.isLoading = false ;
+
     }
   }
+}
+
 
 }

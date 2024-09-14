@@ -5,7 +5,6 @@ import { ToastService } from '../../../core/services/toast.service';
 import { APP_ROUTES } from '../../../app-routes.constant';
 import { AUTH_ROUTES } from '../../auth-routing.constant';
 import { AuthService } from '../../services/auth.service';
-import { Register } from '../../interfaces/register.interface';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +13,7 @@ import { Register } from '../../interfaces/register.interface';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  isLoading = false;
 
   constructor(
     private router: Router,
@@ -43,30 +43,50 @@ export class RegisterComponent implements OnInit {
 
   async onSubmit() {
     if (this.registerForm.valid) {
-      // Preparamos los datos sin 'confirmPassword' y 'terms'
+
+      // TODO> Preparamos los datos sin 'confirmPassword' y 'terms'
       const registerData = {
         name: this.registerForm.get('name')?.value,
         email: this.registerForm.get('email')?.value,
         password: this.registerForm.get('password')?.value,
       };
-  
-      // Llama al servicio de registro
-      this.authService.register(registerData).subscribe(
-        (response) => {
-          console.log('Respuesta del backend:' , response)
+      
+      //TODO: mostramos el indicador de carga
+        this.isLoading = true;
 
-          if (response.success) {
-            this.toastService.showSuccessToast('Registro completado con éxito!!!');
-            this.router.navigate([`${APP_ROUTES.AUTH}/${AUTH_ROUTES.LOGIN}`]);
-          } else {
-            console.log('Error en la respuesta :' , response)
-            this.toastService.showDangerToast(response.message || 'Error al registrar el usuario!!!');
+      // TODO>Llama al servicio de registro
+      try {
+
+        this.authService.register(registerData).subscribe(
+
+          (response) => {
+            console.log('Respuesta del backend:' , response)
+  
+            if (response.success) {
+  
+              this.toastService.showSuccessToast('Registro completado con éxito!!!');
+              this.router.navigate([`${APP_ROUTES.AUTH}/${AUTH_ROUTES.LOGIN}`]);
+  
+            } else {
+  
+              console.log('Error en la respuesta :' , response)
+              this.toastService.showDangerToast(response.message || 'Error al registrar el usuario!!!');
+            }
+          },
+          (error) => {
+            this.toastService.showDangerToast('Error al registrar el usuario!!!');
           }
-        },
-        (error) => {
-          this.toastService.showDangerToast('Error al registrar el usuario!!!');
-        }
-      );
+        );
+        
+      } catch (error) {
+
+        this.toastService.showDangerToast('Error al registrar, por favor intente nuevamente : ' + error);
+
+      } finally {
+
+         this.isLoading = false; //TODO:  oculta el indicador de carga
+      }
+      
     }
   }
   

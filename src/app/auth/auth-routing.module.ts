@@ -6,11 +6,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AUTH_ROUTES } from './auth-routing.constant';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { TermsConditionComponent } from './components/terms-condition/terms-condition.component';
 import { RecoverPassComponent } from './components/recover-pass/recover-pass.component';
-import { VerifyCodeComponent } from './components/verify-code/verify-code.component';
-import { ResetPassComponent } from './components/reset-pass/reset-pass.component';
-import { AuthGuard } from '../core/guards/auth.guard';
+import { TermsConditionComponent } from './components/terms-condition/terms-condition.component';
+
 const routes: Routes = [
 
   {
@@ -33,14 +31,6 @@ const routes: Routes = [
   {
     path : AUTH_ROUTES.RECOVERPASS,
     component: RecoverPassComponent
-  },
-  {
-    path : AUTH_ROUTES.VERIFYCODE,
-    component: VerifyCodeComponent
-  },
-  {
-    path : AUTH_ROUTES.RESSETPASS,
-    component: ResetPassComponent
   }
 ];
 

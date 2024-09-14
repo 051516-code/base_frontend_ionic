@@ -31,7 +31,9 @@
         </ion-text>
       </ion-item>
     </ion-list>
-
+    
+    <!--  Loading  -->
+    <app-loading [show]="isLoading"></app-loading>
 
     <ion-button expand="block" type="submit" [disabled]="loginForm.invalid" class="ion-margin-top" color="primary">
       Iniciar sesión

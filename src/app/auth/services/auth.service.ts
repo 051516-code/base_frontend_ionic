@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 import { Login } from '../interfaces/login.interface';
 import { Register } from '../interfaces/register.interface';
 import { UserProfile } from '../interfaces/user.interface';
-import { SendResetCode } from '../interfaces/sendResetCode.interface';
+import { RequestCode , CodeVeryfy } from '../interfaces/recover-pass.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,9 @@ export class AuthService {
 
   // TODO: Registrar un nuevo usuario
   register(newUser: Register): Observable<any> {
+
     return this.http.post<any>(`${this.apiUrl}/auth/register`, newUser, {
+
       headers: {
         'Content-Type': 'application/json'
       }
@@ -38,6 +40,7 @@ export class AuthService {
 
   // TODO : Iniciar sesión
   login(login: Login): Observable<{ token: string }> {
+
     return this.http.post<{ token: string }>(`${this.apiUrl}/auth/login`, login)
       .pipe(
         map(response => {
@@ -52,27 +55,93 @@ export class AuthService {
 
 
 
-  
-  sendResetCode(sendResetCode: SendResetCode): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/send-reset-code`, sendResetCode, {
+  // TODO : solicita codigo de redefinir senha
+  requestCode(requestCode: RequestCode): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/send-reset-code`, requestCode, {
       headers: {
         'Content-Type': 'application/json'
       }
     })
     .pipe(
-      map(response => response),  // Aquí podemos devolver solo lo que nos interesa del response
+      map(response => {
+        // Procesar y devolver solo lo necesario de la respuesta
+        return {
+          success: response.success,
+          message: response.message
+        };
+      }),
       catchError((error: HttpErrorResponse) => {
         console.error('Error en la solicitud desde frontend:', error);
-        return of({ success: false, message: error.error.message || 'Error desconocido' });
+        // Devolver una respuesta estándar en caso de error
+        return of({
+          success: false,
+          message: error.error.message || 'Error desconocido al enviar el código de restablecimiento'
+        });
+      })
+    );
+  }
+
+
+  
+  // TODO : verifica codigo de redefinir senha
+  verifyCode(code: CodeVeryfy): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/verify-code`, { resetCode: code }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .pipe(
+      map(response => {
+        return {
+          success: response.success,
+          message: response.message
+        };
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error al verificar el código:', error);
+        return of({
+          success: false,
+          message: error.error.message || 'Error desconocido al verificar el código'
+        });
       })
     );
   }
   
 
-  verifyCode(codeStr : string){
-    return true;
+
+  // Método para restablecer la contraseña
+  resetPassword(code: string, newPassword: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/reset-password`, { resetCode: code, newPassword: newPassword }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .pipe(
+      map(response => ({
+        success: response.success,
+        message: response.message
+      })),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error al restablecer la contraseña:', error);
+        return of({
+          success: false,
+          message: error.error.message || 'Error desconocido al restablecer la contraseña'
+        });
+      })
+    );
   }
 
+
+
+
+
+
+
+
+
+
+
+  
 
   // Obtener el perfil del usuario actual
   getUserProfile(): Observable<UserProfile | null> {
