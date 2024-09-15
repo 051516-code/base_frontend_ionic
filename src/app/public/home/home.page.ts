@@ -50,15 +50,15 @@ export class HomePage implements OnInit{
 
     ngOnInit(){
 
-      this.userLocation.UserLocation()
-      .then(coords => {
-        console.log('Latitude:', coords.latitude);
-        console.log('Longitude:', coords.longitude);
-        console.log(coords)
-      })
-      .catch(error => {
-        console.error(error);
-      });
+      // this.userLocation.UserLocation()
+      // .then(coords => {
+      //   console.log('Latitude:', coords.latitude);
+      //   console.log('Longitude:', coords.longitude);
+      //   console.log(coords)
+      // })
+      // .catch(error => {
+      //   console.error(error);
+      // });
     
     }
 

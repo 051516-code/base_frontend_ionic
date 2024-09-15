@@ -6,6 +6,7 @@ import { MostPopularComponent } from './components/most-popular/most-popular.com
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 import { ImageSelectionModalComponent } from './components/image-selection-modal/image-selection-modal.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HeaderComponent } from './components/header/header.component';
 
 
 
@@ -16,7 +17,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     MostPopularComponent,
     SplashScreenComponent,
     ImageSelectionModalComponent,
-    SidebarComponent
+    SidebarComponent,
+    HeaderComponent
 
   ],
   imports: [
@@ -27,6 +29,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     LoadingComponent,
     MostPopularComponent,
     SplashScreenComponent,
+    HeaderComponent,
     CommonModule // Exportando CommonModule para no tener que importarlo en los módulos que usen SharedModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

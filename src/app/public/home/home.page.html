@@ -1,28 +1,26 @@
 
+
 <ion-header>
   <ion-toolbar>
     <ion-menu-button slot="start"></ion-menu-button>
-    <ion-title>Helper Roads - Map</ion-title>
+    <ion-title>map</ion-title>
   </ion-toolbar>
- 
 </ion-header>
 
-<ion-content [fullscreen]="true">
 
+<ion-content [fullscreen]="true">
   <!-- Contenedor del mapa -->
   <div class="map-container">
     <app-map></app-map>
   </div>
-
 </ion-content>
 
 <!--  Loading  -->
 <app-loading [show]="isLoading"></app-loading>
 
 <ion-footer>
-
-<!-- más populares del área -->
-<app-most-popular [companies]="avatarList"></app-most-popular>
+  <!-- más populares del área -->
+  <app-most-popular [companies]="avatarList"></app-most-popular>
 
   <!-- boton de alert en el bottom -->
   <ion-button
@@ -34,5 +32,4 @@
   >
     Alert
   </ion-button>
-
 </ion-footer>

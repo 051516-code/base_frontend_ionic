@@ -1,13 +1,12 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject  } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 import { Login } from '../interfaces/login.interface';
 import { Register } from '../interfaces/register.interface';
-import { UserProfile } from '../interfaces/user.interface';
 import { RequestCode , CodeVerify } from '../interfaces/recover-pass.interface';
 
 @Injectable({
@@ -15,7 +14,9 @@ import { RequestCode , CodeVerify } from '../interfaces/recover-pass.interface';
 })
 export class AuthService {
   private apiUrl = `${environment.apiUrl}`;
-  private readonly CURRENT_USER_Key = 'aio-token';
+  private readonly CURRENT_USER_KEY = 'aio-token';
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.checkToken());
+  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -46,7 +47,7 @@ export class AuthService {
       .pipe(
         map(response => {
           if (response.token) {
-            localStorage.setItem(this.CURRENT_USER_Key, response.token);
+            localStorage.setItem(this.CURRENT_USER_KEY, response.token);
           }
           return response; // Devuelve el objeto completo con el token
         }),
@@ -136,40 +137,22 @@ export class AuthService {
   }
   
 
-
-
-
-
-
-
-
-
-
-  
-
   // Obtener el perfil del usuario actual
-  getUserProfile(): Observable<UserProfile | null> {
-    const token = localStorage.getItem(this.CURRENT_USER_Key);
-    if (token) {
-      return this.http.get<UserProfile>(`${this.apiUrl}/profile`).pipe(
-        catchError(() => of(null))
-      );
-    }
-    return of(null);
-  }
 
   // Cerrar sesión
-  logout(): void {
-    localStorage.removeItem(this.CURRENT_USER_Key);
+  logout(): Observable<boolean> {
+    localStorage.removeItem('token');
+    this.isAuthenticatedSubject.next(false); // Actualiza el estado de autenticación
+    return of(true);
   }
 
   // Verificar si el usuario está autenticado
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem(this.CURRENT_USER_Key);
-  }
+    private checkToken(): boolean {
+      return !!localStorage.getItem(this.CURRENT_USER_KEY);
+    }
 
   // Obtener el token del usuario actual
   getCurrentUserToken(): string | null {
-    return localStorage.getItem(this.CURRENT_USER_Key);
+    return localStorage.getItem(this.CURRENT_USER_KEY);
   }
 }

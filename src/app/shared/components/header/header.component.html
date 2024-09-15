@@ -1,0 +1,26 @@
+<!-- Sidebar/Menu Lateral -->
+<ion-menu side="start" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <!-- Contenido del menú -->
+    <ion-list>
+      <ion-item button routerLink="/home">Home</ion-item>
+      <ion-item button routerLink="/settings">Settings</ion-item>
+      <ion-item (click)="logOut()">LogOut</ion-item>
+      <!-- Más ítems de menú aquí -->
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- Contenido principal -->
+
+
+<ion-content id="main-content">
+  <ng-content></ng-content> <!-- Inserta el contenido de la página aquí -->
+</ion-content>
+
+

@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 // Importaciones propias
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
-import { Login } from '../../interfaces/login.interface';
 import { AUTH_ROUTES } from '../../auth-routing.constant';
 import { APP_ROUTES } from 'src/app/app-routes.constant';
 
@@ -36,6 +35,8 @@ export class LoginComponent {
     return this.loginForm.controls;
   }
 
+
+
   async onSubmit() {
     if (this.loginForm.valid) {
 
@@ -49,16 +50,16 @@ export class LoginComponent {
       
       //TODO> llamamos el servicio de login
       try {
-        const loggedIn = await this.authService.login(loginData).toPromise();
-        console.log('Login result:', loggedIn);
-
-        if (loggedIn && loggedIn.token) {  // Verificar si el login fue exitoso y si se recibe el token
+        const result = await this.authService.login(loginData).toPromise();
+      
+        console.log(result?.token)
+        if (result && result.token) {  // Verificar si el login fue exitoso y si se recibe el token
           this.toastService.showSuccessToast('Login Correcto');
           this.router.navigate([APP_ROUTES.MAP]); // Redirigir a la ruta deseada
         
         }else {
           
-          this.toastService.showDangerToast('Login Incorrecto, revisa tus credenciales: '+ loggedIn);
+          this.toastService.showDangerToast('Login Incorrecto, revisa tus credenciales: '+ result);
         }
       
       } catch (error) {
