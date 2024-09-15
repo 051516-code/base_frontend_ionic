@@ -12,6 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RequestEmailComponent } from './components/recover-pass/request-email/request-email.component';
 import { VerifyCodeComponent } from './components/recover-pass/verify-code/verify-code.component';
 import { ResetPassComponent } from './components/recover-pass/reset-pass/reset-pass.component';
+import { TermsConditionComponent } from './components/terms-condition/terms-condition.component';
 
 
 
@@ -23,7 +24,8 @@ import { ResetPassComponent } from './components/recover-pass/reset-pass/reset-p
     RecoverPassComponent,
     RequestEmailComponent,
     VerifyCodeComponent,
-    ResetPassComponent
+    ResetPassComponent,
+    TermsConditionComponent
 
   ],
   imports: [

@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { RequestCode } from '../../../interfaces/recover-pass.interface';
 
 @Component({
@@ -22,13 +23,14 @@ export class RequestEmailComponent  {
    }
 
    onRequestSubmit(){
-
     if( this.requestForm.valid){
+      //TODO> obtenemos el dato del formulario valido
       const email = this.requestForm.get('email')?.value;
 
-       // Construir el objeto para la solicitud
-       const requestCode: RequestCode = { email };
-
+      // todo: Construir el objeto para la solicitud
+      const requestCode: RequestCode = { email };
+      
+      //TODO> emitimos el dato
       this.emailSubmited.emit(requestCode)
     }
    }

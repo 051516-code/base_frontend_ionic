@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -7,7 +8,7 @@ import { environment } from '../../../environments/environment';
 import { Login } from '../interfaces/login.interface';
 import { Register } from '../interfaces/register.interface';
 import { UserProfile } from '../interfaces/user.interface';
-import { RequestCode , CodeVeryfy } from '../interfaces/recover-pass.interface';
+import { RequestCode , CodeVerify } from '../interfaces/recover-pass.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,7 @@ export class AuthService {
 
   // TODO : solicita codigo de redefinir senha
   requestCode(requestCode: RequestCode): Observable<any> {
+    
     return this.http.post<any>(`${this.apiUrl}/auth/send-reset-code`, requestCode, {
       headers: {
         'Content-Type': 'application/json'
@@ -84,8 +86,9 @@ export class AuthService {
 
   
   // TODO : verifica codigo de redefinir senha
-  verifyCode(code: CodeVeryfy): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/verify-code`, { resetCode: code }, {
+  verifyCode(codeVerify: CodeVerify): Observable<any> {
+
+    return this.http.post<any>(`${this.apiUrl}/auth/verify-code`, { resetCode: codeVerify.codeStr  }, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -111,26 +114,27 @@ export class AuthService {
 
   // Método para restablecer la contraseña
   resetPassword(code: string, newPassword: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/reset-password`, { resetCode: code, newPassword: newPassword }, {
-      headers: {
-        'Content-Type': 'application/json'
+    return this.http.patch<any>(`${this.apiUrl}/auth/reset-password`, 
+      { resetCode: code, newPassword: newPassword },
+      {
+        headers: { 'Content-Type': 'application/json' }
       }
-    })
+    )
     .pipe(
       map(response => ({
-        success: response.success,
-        message: response.message
+        success: response?.success || false,
+        message: response?.message || 'Error desconocido al restablecer la contraseña'
       })),
       catchError((error: HttpErrorResponse) => {
-        console.error('Error al restablecer la contraseña:', error);
+        console.error('Error al restablecer la contraseña:', error.message, error);
         return of({
           success: false,
-          message: error.error.message || 'Error desconocido al restablecer la contraseña'
+          message: error.error?.message || 'Error desconocido al restablecer la contraseña'
         });
       })
     );
   }
-
+  
 
 
 

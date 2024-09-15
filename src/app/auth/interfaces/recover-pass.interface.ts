@@ -1,11 +1,11 @@
 export interface RequestCode {
-    email: string;
+  email: string;
 }
 
-export interface CodeVeryfy {
-  code : string;
+export interface CodeVerify {
+  codeStr : string;
 }
 
-export interface NewPass {
-  newPassword : string;
+export interface NewPassword {
+  password : string;
 }

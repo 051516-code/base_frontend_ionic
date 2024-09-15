@@ -1,8 +1,11 @@
-<div *ngIf="currentStep === 'requestEmail'">
+<div *ngIf="currentStep === 'requestCode'">
   <app-request-email (emailSubmited)="handleEmailSubmit($event)"></app-request-email>
 </div>
 <div *ngIf="currentStep === 'verifyCode'">
-  <app-request-email (codeSubmited)="handleCodeSubmit($event)"></app-request-email>
+  <app-verify-code (codeSubmited)="handleCodeSubmit($event)"></app-verify-code>
+</div>
+<div *ngIf="currentStep === 'resetPass'">
+  <app-reset-pass (passwordSubmited)="onResetPassword($event)"></app-reset-pass>
 </div>
 
  <!--  Loading  -->
